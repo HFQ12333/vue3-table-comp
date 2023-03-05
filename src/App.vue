@@ -66,15 +66,17 @@ const tableData = reactive({
 		},
 	],
 })
-const editData = ({ index, key, value, text }) => {
-	if (tableData.tbody[index][key] !== value) {
+const editData = ({ index, key, value, text }, removeInputCb) => {
+	if (tableData.tbody[index][key] !== Number(value)) {
 		const cfm = window.confirm(`
          您要确定将数据下表为『${index}』项
          『${text}』字段的内容修改为『${value}』吗？
       `)
 
 		if (cfm) {
-			tableData.tBody[index][key] = value
+			tableData.tbody[index][key] = value
+		} else {
+			removeInputCb()
 		}
 	}
 }

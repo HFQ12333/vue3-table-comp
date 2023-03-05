@@ -73,7 +73,7 @@ function setData({ index, key, text, value = '' }) {
 
 function setValue(value) {
 	state.value = value
-	emit('submit', { ...state })
+	emit('submit', { ...state }, removeEditInputApp)
 }
 
 function findText(key) {
@@ -81,10 +81,15 @@ function findText(key) {
 	return text
 }
 
-function removeEditInputApp(app) {
-	if (app) {
-		app.unmount()
-	}
+// 卸载input
+function removeEditInputApp() {
+	editInputApp && editInputApp.unmount()
+	setData({
+		index: -1,
+		key: '',
+		value: '',
+		text: '',
+	})
 }
 
 function checkEditable(key) {
@@ -92,7 +97,7 @@ function checkEditable(key) {
 	return editable
 }
 
-window.addEventListener('click', () => removeEditInputApp(editInputApp), false)
+window.addEventListener('click', removeEditInputApp, false)
 </script>
 
 <style scoped lang="scss">
